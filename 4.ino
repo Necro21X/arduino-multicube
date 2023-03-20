@@ -20,11 +20,10 @@ void setup() {
 
 }
 
-
 bool power = true;
 
 void loop() {
-
+	stopRegisters();
 }
 
 void stopRegisters() {
