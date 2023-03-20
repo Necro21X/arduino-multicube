@@ -17,7 +17,6 @@ def fileCreate():
     destination.close()
     
 def lightsOn():
-    print("poopoo")
     x = xcoord.get()
     y = ycoord.get()
     print(x)
