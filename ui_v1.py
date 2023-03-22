@@ -21,27 +21,43 @@ def fileCreate():
     
 def lightsOn():
     global linecounter
-    x = xcoord.get()
+    x = xcoord.get()   
     y = ycoord.get()
     name = name_field.get()
     with open(name+ '.ino', 'a') as destination:
-      destination.write('setCoord('+str(x)+', '+str(y)+')')
-      destination.write('\n')
+      destination.write('setCoord('+str(x)+', '+str(y)+');\n')
     linecounter = linecounter + 1
     destination.close()
     lbox.insert(END, 'Tower: '+str(x)+'/'+str(y))
     
 def planeOn():
     global linecounter
-    z = zcoord.get() #add the z coordinate
+    z = zcoord.get() 
     name = name_field.get()
     with open(name+'.ino', 'a') as destination:
-        destination.write('setPlane('+str(z)+')')
-        destination.write('\n')
+        destination.write('setPlane('+str(z)+');\n')
     linecounter = linecounter + 1
     destination.close()
     lbox.insert(END, 'Plane: '+str(z))
 
+def addDelay():
+    global linecounter; d = delay.get()
+    name = name_field.get()
+    with open(name+ '.ino', 'a') as destination:
+        destination.write('shiftRegisters(); delay('+str(d)+'); stopRegisters();\n')
+    linecounter = linecounter + 1
+    destination.close
+    lbox.insert(END, 'Delay: '+str(d))
+
+def finishCode():
+    name = name_field.get()
+    with open('4.ino', 'r') as source, open(name+'.ino', 'a') as destination:
+        lines = source.readlines()
+        for line in lines[26:64]:
+            destination.write(line)
+    source.close()
+    destination.close()
+    
 def deleteLine():
     global linecounter
     selectedLines = lbox.curselection()
@@ -81,7 +97,7 @@ message_coord = tk.Label(mainframe, text="X/Y Coordinates:")
 message_coord.grid(column=1, row=2, sticky=W)
 
 xcoord = IntVar()
-num_xcoord = tk.Entry(mainframe, textvariable=xcoord)
+num_xcoord = ttk.Entry(mainframe, textvariable=xcoord)
 num_xcoord.grid(column=2, row=2, sticky=W)
 
 ttk.Label(mainframe, text="/").grid(column=3, row=2, sticky=W)
@@ -107,6 +123,18 @@ lbox.grid(column=4, row=3, columnspan=2, rowspan=2)
 
 button_delete = ttk.Button(mainframe, text="Delete Selected", command=deleteLine)
 button_delete.grid(column=6, row=3, sticky=(N, E))
+
+button_finish = ttk.Button(mainframe, text="Finish Code", command=finishCode)
+button_finish.grid(column=6, row=4, sticky=(N, E))
+
+ttk.Label(mainframe, text="Delay:").grid(column=1, row=4, sticky=W)
+
+delay = IntVar()
+num_delay = ttk.Entry(mainframe, textvariable=delay)
+num_delay.grid(column=2, row=4, sticky=W)
+
+button_delay = ttk.Button(mainframe, text="Add Delay", command=addDelay)
+button_delay.grid(column=3, row=4, sticky=W)
 
 for child in mainframe.winfo_children():
     child.grid_configure(padx=10, pady=10)
