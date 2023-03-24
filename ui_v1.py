@@ -10,15 +10,16 @@ linecounter = 0
 
 def fileCreate():
     name = name_field.get()
+    fileNum = fileNum_field.get()
     open(name+'.ino', "x")
-    with open('4.ino', 'r') as source, open(name +'.ino', 'w') as destination:
+    with open(fileNum+'.ino', 'r') as source, open(name +'.ino', 'w') as destination:
         lines = source.readlines()
         for line in lines[0:26]:
             destination.write(line)
 
     source.close()
     destination.close()
-    
+
 def lightsOn():
     global linecounter
     x = xcoord.get()   
@@ -51,7 +52,8 @@ def addDelay():
 
 def finishCode():
     name = name_field.get()
-    with open('4.ino', 'r') as source, open(name+'.ino', 'a') as destination:
+    fileNum = fileNum_field.get()
+    with open(fileNum+'.ino', 'r') as source, open(name+'.ino', 'a') as destination:
         lines = source.readlines()
         for line in lines[26:64]:
             destination.write(line)
@@ -83,15 +85,20 @@ mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
-message_filename = tk.Label(mainframe, text="Filename:")
-message_filename.grid(column=1, row=1, sticky=W)
+tk.Label(mainframe, text="Filename:").grid(column=1, row=1, sticky=W)
 
 name = StringVar()
 name_field = ttk.Entry(mainframe, textvariable=name)
 name_field.grid(column=2, row=1, sticky=(W, E))
 
+tk.Label(mainframe, text="Cube Size:").grid(column=3, row=1, sticky=W)
+
+fileNum = StringVar()
+fileNum_field = ttk.Entry(mainframe, textvariable=fileNum)
+fileNum_field.grid(column=4, row=1, sticky=W)
+
 button_create = ttk.Button(mainframe, text="Create Cofing File", command=fileCreate)
-button_create.grid(column=3, row=1, sticky=E)
+button_create.grid(column=5, row=1, sticky=E)
 
 message_coord = tk.Label(mainframe, text="X/Y Coordinates:")
 message_coord.grid(column=1, row=2, sticky=W)
