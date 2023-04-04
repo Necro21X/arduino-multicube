@@ -12,7 +12,7 @@ String poper[] = {"Wave", "Cube"};
 #define LATCH_PIN 4
 #define CLOCK_PIN 3
 
-#define NUM_SHIFT_PIN 70
+#define NUM_SHIFT_PIN 72
 
 int c = 0;
 int p = 64;
